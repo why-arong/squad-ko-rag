@@ -1,2 +1,5 @@
 .python-version
 .idea
+.env
+__pycache__
+assignment.ipynb
