@@ -5,7 +5,6 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain import hub
 from transformers import BitsAndBytesConfig
 from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
-import logger
 
 
 class HuggingFaceLLM:
@@ -29,7 +28,7 @@ class HuggingFaceLLM:
                               "device_map": "auto"}
             )
         except Exception as e:
-            logger.error("Failed to load LLM:", exc_info=e)
+            print(e)
             raise
         self.model = ChatHuggingFace(llm=chat_model, model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct')
 
