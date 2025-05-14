@@ -5,7 +5,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain import hub
 from transformers import BitsAndBytesConfig
 from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
-import re
+from app.commons import extract_answer
 
 
 class HuggingFaceLLM:
@@ -47,8 +47,7 @@ class HuggingFaceLLM:
 
         answer, context, = result["answer"], result["context"]
 
-        match = re.search(r'\[|assistant\|](.*)', answer)
-        assistant_answer = match.group(1).strip()
+        assistant_answer = extract_answer(answer)
 
         metadata = context[0].metadata
         retrieved_document_id = metadata["id"]
