@@ -5,6 +5,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain import hub
 from transformers import BitsAndBytesConfig
 from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
+from app.commons import extract_answer
 
 
 class HuggingFaceLLM:
@@ -46,13 +47,15 @@ class HuggingFaceLLM:
 
         answer, context, = result["answer"], result["context"]
 
+        assistant_answer = extract_answer(answer)
+
         metadata = context[0].metadata
         retrieved_document_id = metadata["id"]
         retrieved_document = context[0].page_content
 
         return QueryResponse(
             question=user_question,
-            answer=answer,
+            answer=assistant_answer,
             retrieved_document_id=retrieved_document_id,
             retrieved_document=retrieved_document
         )
