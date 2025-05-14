@@ -10,11 +10,17 @@ from contextlib import asynccontextmanager
 async def lifespan(app: FastAPI):
     # TODO: init db
     yield
+
+
 app = FastAPI(lifespan=lifespan)
 
-
-
 llm = UpstageLLM()
+
+
+@app.get("/")
+def read_root():
+    return {"message": "Ask me everything about Wikipedia!!"}
+
 
 @app.post("/query", response_model=QueryResponse)
 async def rag_endpoint(query: QueryRequest):
