@@ -25,7 +25,7 @@ class HuggingFaceLLM:
             ),
             model_kwargs={'quantization_config': quantization_config}
         )
-        self.model = ChatHuggingFace(llm=chat_model, model_id='LGAI-EXAONE-3.5-2.4B-Instruct')
+        self.model = ChatHuggingFace(llm=chat_model, model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct')
 
     def generate_answer(self, query: QueryRequest):
         user_question = query.question
