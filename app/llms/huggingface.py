@@ -23,7 +23,7 @@ class HuggingFaceLLM:
                 do_sample=False,
                 repetition_penalty=1.03
             ),
-            model_kwargs={'quantization_config': quantization_config, "trust_remote_code": True, }
+            model_kwargs={'quantization_config': quantization_config, "trust_remote_code": True, "device_map": "auto"}
         )
         self.model = ChatHuggingFace(llm=chat_model, model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct')
 
