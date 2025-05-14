@@ -16,7 +16,7 @@ class HuggingFaceLLM:
             bnb_4bit_use_double_quant=True,
         )
         chat_model = HuggingFacePipeline.from_model_id(
-            model_id='yanolja/EEVE-Korean-2.8B-v1.0',
+            model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct',
             task='text-generation',
             pipeline_kwargs=dict(
                 max_new_tokens=1024,
