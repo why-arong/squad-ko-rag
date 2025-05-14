@@ -2,7 +2,6 @@
 # TODO: chang db to chroma later.
 
 
-from langchain_upstage import UpstageEmbeddings
 from dotenv import load_dotenv
 from pinecone import Pinecone
 from langchain_pinecone import PineconeVectorStore
@@ -10,12 +9,13 @@ import os
 from app.config import index_name
 
 load_dotenv()
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
 
 class PineconeClinet:
 
     def __init__(self):
-        self.embeddings = UpstageEmbeddings(model="solar-embedding-1-large")
+        self.embeddings = HuggingFaceEmbeddings(model_name='nlpai-lab/KURE-v1')
         pinecone_api_key = os.environ.get("PINECONE_API_KEY")
         pc = Pinecone(api_key=pinecone_api_key)
         self.vectorstore = PineconeVectorStore.from_existing_index(index_name=index_name,

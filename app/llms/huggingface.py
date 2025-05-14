@@ -15,17 +15,22 @@ class HuggingFaceLLM:
             bnb_4bit_compute_dtype="float16",
             bnb_4bit_use_double_quant=True,
         )
-        chat_model = HuggingFacePipeline.from_model_id(
-            model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct',
-            task='text-generation',
-            pipeline_kwargs=dict(
-                max_new_tokens=1024,
-                do_sample=False,
-                repetition_penalty=1.03
-            ),
-            model_kwargs={'quantization_config': quantization_config}
-        )
-        self.model = ChatHuggingFace(llm=chat_model)
+        try:
+            chat_model = HuggingFacePipeline.from_model_id(
+                model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct',
+                task='text-generation',
+                pipeline_kwargs=dict(
+                    max_new_tokens=1024,
+                    do_sample=False,
+                    repetition_penalty=1.03
+                ),
+                model_kwargs={'quantization_config': quantization_config, "trust_remote_code": True,
+                              "device_map": "auto"}
+            )
+        except Exception as e:
+            print(e)
+            raise
+        self.model = ChatHuggingFace(llm=chat_model, model_id='LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct')
 
     def generate_answer(self, query: QueryRequest):
         user_question = query.question
