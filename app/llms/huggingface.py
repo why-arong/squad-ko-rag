@@ -25,7 +25,7 @@ class HuggingFaceLLM:
             ),
             model_kwargs={'quantization_config': quantization_config}
         )
-        self.model = ChatHuggingFace(chat_model)
+        self.model = ChatHuggingFace(llm=chat_model)
 
     def generate_answer(self, query: QueryRequest):
         user_question = query.question
