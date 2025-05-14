@@ -1,3 +1,1 @@
-
-
-index_name = 'goorm-rag-squad-kor-v1'
+index_name = 'squad-ko-index'

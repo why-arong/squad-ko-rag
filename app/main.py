@@ -3,7 +3,6 @@ from fastapi import FastAPI, HTTPException
 from app.llms.huggingface import HuggingFaceLLM
 from app.llms.upstage import UpstageLLM
 from app.models import QueryRequest, QueryResponse
-from app.rag_pipeline import generate_answer
 from contextlib import asynccontextmanager
 
 
@@ -15,6 +14,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+# TODO: make base LLM!! (use abc meta class later...)
 # llm = UpstageLLM()
 llm = HuggingFaceLLM()
 
@@ -28,6 +28,5 @@ def read_root():
 async def rag_endpoint(query: QueryRequest):
     try:
         return llm.generate_answer(query)
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
