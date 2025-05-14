@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 
+from app.llms.huggingface import HuggingFaceLLM
 from app.llms.upstage import UpstageLLM
 from app.models import QueryRequest, QueryResponse
 from app.rag_pipeline import generate_answer
@@ -14,7 +15,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-llm = UpstageLLM()
+# llm = UpstageLLM()
+llm = HuggingFaceLLM()
 
 
 @app.get("/")

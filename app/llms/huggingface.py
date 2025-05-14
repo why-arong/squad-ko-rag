@@ -1,15 +1,31 @@
-from langchain_upstage import ChatUpstage
 from app.vectorstore import PineconeClinet
 from app.models import QueryRequest, QueryResponse
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain import hub
+from transformers import BitsAndBytesConfig
+from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 
 
 class HuggingFaceLLM:
     def __init__(self):
-        # self.model = ChatUpstage()
-        pass
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype="float16",
+            bnb_4bit_use_double_quant=True,
+        )
+        chat_model = HuggingFacePipeline.from_model_id(
+            model_id='yanolja/EEVE-Korean-2.8B-v1.0',
+            task='text-generation',
+            pipeline_kwargs=dict(
+                max_new_tokens=1024,
+                do_sample=False,
+                repetition_penalty=1.03
+            ),
+            model_kwargs={'quantization_config': quantization_config}
+        )
+        self.model = ChatHuggingFace(chat_model)
 
     def generate_answer(self, query: QueryRequest):
         user_question = query.question
